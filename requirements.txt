@@ -1,0 +1,34 @@
+# =============================
+# Grid Wizard v2 core packages
+# =============================
+
+# XRPL client + models
+xrpl-py==2.6.0
+
+# Environment variable management
+python-dotenv>=1.0.1
+
+# GUI (Tkinter is built-in on most Python installs, but include wrapper for cross-platform)
+tk==0.1.0
+
+# Math & precision utilities
+decimal==1.70  # included by default in stdlib, listed for clarity (optional)
+
+# HTTP requests (for IPFS metadata)
+requests>=2.31.0
+
+# Logging and time utilities
+coloredlogs>=15.0.1
+
+# =============================
+# Optional metrics / data
+# =============================
+pandas>=2.2.0
+openpyxl>=3.1.2   # if exporting Excel logs
+
+# =============================
+# Dev and test utilities (optional)
+# =============================
+pytest>=8.0.0
+bandit>=1.7.5
+flake8>=6.1.0
