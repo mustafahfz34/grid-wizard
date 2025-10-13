@@ -2,7 +2,7 @@
 
 Source-available grid trader for XRP/RLUSD with **strict caps + pending queue**, **side throttles**, **toggleable auto-cancel**, and optional **reserve relief**.
 
-> License: Business Source License 1.1 (BUSL-1.1). Non-commercial/research permitted; production use requires a commercial license (e.g., Grid Wizard Pro NFT). See LICENSE and COMMERCIAL-LICENSE.md.
+> License: Business Source License 1.1 (BUSL-1.1). Non-commercial/research permitted;  (e.g., Grid Wizard Pro NFT). See LICENSE and NFT-LICENSE.md.
 
 ## Quickstart
 1. `python -m venv .venv && . .venv/bin/activate` (or Windows equivalent)
@@ -16,4 +16,5 @@ Source-available grid trader for XRP/RLUSD with **strict caps + pending queue**,
 - NFT license logic is visible in code and checks only issuer/traits.
 
 ## Docs
-See the GitBook: <your-link>
+See the GitBook: 
+
