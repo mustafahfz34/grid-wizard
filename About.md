@@ -87,7 +87,12 @@ Each release is an iteration in a long arc of creative engineering:
 We invite artists, engineers, and dreamers alike to join us—  
 to contribute, to audit, to remix ideas, and to help shape this new frontier where **art meets algorithm**.
 
----
+### 🔗 Grid Wizard Labs Links
+- 🌐 **GitHub Repo:** [Grid Wizard v2](https://github.com/terramike/grid-wizard)
+- 📘 **Wiki & Docs:** [Understanding Your .env](https://github.com/terramike/grid-wizard/wiki)
+- 🪄 **License Mint (NFT):** [Grid Wizard Pro XRP License](https://xrp.cafe/usercollection/rfYZ17wwhA4Be23fw8zthVmQQnrcdDRi52/rfYZ17wwhA4Be23fw8zthVmQQnrcdDRi52/42000)
+- 🌳 **Linktree:** [GridWizardLabs](https://linktr.ee/terramike)
+- 🕊️ **X (Twitter):** [@GridWizardLabs](https://x.com/nfterramike)
 
 > *“Transparency is the new trust.  
 > Art is the language of truth.”*  
