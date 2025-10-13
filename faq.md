@@ -1,7 +1,12 @@
 ❓ FAQ
 
+### Q: What does the NFT license actually do?
+A: It’s a **software key**. If your wallet holds the NFT, the bot runs in Pro mode.  
+It doesn’t give you rights to resell or modify the code — just to use it.
+
 ### Q: Is Grid Wizard open source?
-A: Source-available under BUSL-1.1. You can read and audit the code, but commercial use requires a license NFT.
+A: The code is **source-available** for transparency, but governed by BUSL-1.1.
+You can read and audit it, but not redistribute or repackage it.
 
 ### Q: Do I need to trust the bot with my funds?
 A: No. The bot trades **non-custodially** on XRPL using your own wallet and trustline.
