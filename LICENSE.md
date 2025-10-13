@@ -1,29 +1,26 @@
 # Grid Wizard Commercial License
 
-Copyright © 2025 Grid Wizard Labs
-Las Vegas, Nevada, USA  
-All rights reserved.
-
----
-
 ## Overview
 
-The **Grid Wizard Commercial License** grants permission to use the Grid Wizard
-software in **production**, **automated trading**, or **revenue-generating**
-contexts, provided the user holds a valid license NFT or written agreement
-with Grid Wizard Labs.
+Business Source License 1.1
 
-The base source code is distributed under the **Business Source License 1.1 (BUSL-1.1)**,
-which allows personal, educational, and security-audit use.  
-Any **commercial or production use** requires this additional license.
+Copyright © 2025 Grid Wizard Labs. All rights reserved.
+Licensor: Grid Wizard Labs
+Licensed Work: Grid Wizard (XRP/RLUSD Trading Engine and UI)
+Additional Use Grant: Personal and educational use is permitted. 
+Use of the software for live trading or operational purposes requires a valid Grid Wizard NFT License issued by Grid Wizard Labs.
+NFT ownership licenses the holder to *run* the software for their own use only. 
+It does not grant any right to reproduce, modify, rebrand, redistribute, or offer Grid Wizard as a service.
 
----
+Change Date: 2028-01-01  
+Change License: Apache-2.0
 
-## How to Obtain a Commercial License
+
+## How to Obtain a License
 
 ### Option 1 – NFT License (on-chain verification)
 Purchase or hold a **Grid Wizard Pro XRP NFT License** minted on the XRP Ledger.  
-This NFT acts as your perpetual, verifiable proof of commercial rights.
+This NFT acts as your perpetual, verifiable proof of use rights.
 
 **Mint / Marketplace Link:**  
 🔗 <https://xrp.cafe/usercollection/rfYZ17wwhA4Be23fw8zthVmQQnrcdDRi52/rfYZ17wwhA4Be23fw8zthVmQQnrcdDRi52/42000>
@@ -44,21 +41,13 @@ no hidden logic or remote calls exist.
 
 ---
 
-### Option 2 – Written Commercial Agreement
-Organizations requiring custom terms (e.g., multi-wallet deployments,
-white-label builds, or enterprise integrations) may obtain a separate
-written license.
+
 
 Contact → **licensing@gridwizard.dev**
 
 ---
 
-## Rights Granted by a Commercial License
 
-- Unlimited internal and production use of Grid Wizard software  
-- Permission to run, modify, and extend the code for business use  
-- Eligibility for private support and update notifications  
-- Optional listing on the official “Verified Operators” page  
 
 ---
 
@@ -84,3 +73,4 @@ laws of the **State of Nevada, USA**, without regard to its conflict-of-law prin
 
 *For questions, bulk licensing, or NFT verification assistance, contact:*  
 📧 licensing@gridwizard.dev
+
