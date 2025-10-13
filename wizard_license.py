@@ -1,76 +1,72 @@
-# wizard_license.py
-# SPDX-License-Identifier: BUSL-1.1
 """
-Grid Wizard – simple NFT license gate (issuer-only)
+wizard_license.py
+Grid Wizard NFT License Verification
 
-Rule: If the connected account holds ANY NFT whose Issuer == LICENSE_ISSUER,
-unlock Pro features. No .env override, no Taxon filtering.
+Purpose:
+- Ensures the user holds at least one NFT from the authorized Grid Wizard issuer.
+- No .env dependency — the issuer is hardcoded for transparency and immutability.
+- Works on any XRPL network (mainnet recommended).
+
+Usage:
+from wizard_license import check_license
+ok, reason = check_license(client, classic_address, log)
 """
 
-from typing import Tuple, Optional, List
-import time
-from xrpl.clients import JsonRpcClient
 from xrpl.models.requests import AccountNFTs
 
-# ==== HARD-CODED LICENSE PARAM ====
-LICENSE_ISSUER = "rfYZ17wwhA4Be23fw8zthVmQQnrcdDRi52"  # Grid Wizard Labs issuer
+# =====================================================================
+# Configuration
+# =====================================================================
 
-# --- internal helpers ---------------------------------------------------------
+# The official Grid Wizard NFT issuer address (hardcoded)
+LICENSE_ISSUERS = [
+    "rfYZ17wwhA4Be23fw8zthVmQQnrcdDRi52",  # Grid Wizard Labs (Las Vegas)
+]
 
-def _req_with_backoff(client: JsonRpcClient, req, retries: int = 3, base: float = 0.5, cap: float = 5.0):
-    for i in range(retries):
-        try:
-            resp = client.request(req)
-            if hasattr(resp, "is_successful") and resp.is_successful():
-                return resp
-        except Exception:
-            pass
-        time.sleep(min(cap, base * (2 ** i)))
-    return None
+# Optional: restrict to a specific collection Taxon (set to None to ignore)
+LICENSE_TAXON = None  # or 42000 if you later re-enable Taxon filtering
 
-def _fetch_all_account_nfts(client: JsonRpcClient, classic: str, limit: int = 400) -> Optional[List[dict]]:
-    """Paginate through account_nfts so we don't miss licenses on large wallets."""
-    nfts: List[dict] = []
-    marker = None
-    for _ in range(10):  # safety cap: up to 10 pages
-        req = AccountNFTs(account=classic, ledger_index="validated", limit=limit, marker=marker)
-        resp = _req_with_backoff(client, req, retries=3)
-        if resp is None:
-            return None
-        page = resp.result.get("account_nfts", [])
-        nfts.extend(page)
-        marker = resp.result.get("marker")
-        if not marker:
-            break
-    return nfts
+# =====================================================================
+# License check
+# =====================================================================
 
-# --- public API ---------------------------------------------------------------
-
-def check_license(client: JsonRpcClient, classic_address: str, log=None) -> Tuple[bool, str]:
+def check_license(client, address: str, log=None):
     """
-    Returns (ok, reason).
-    ok=True if the account owns ANY NFT issued by LICENSE_ISSUER.
+    Checks whether the given XRPL address holds a valid Grid Wizard license NFT.
+
+    Returns:
+        (bool, str): (True, success_message) or (False, error_message)
     """
-    all_nfts = _fetch_all_account_nfts(client, classic_address, limit=400)
-    if all_nfts is None:
-        return (False, "[NFT] License check failed: RPC unavailable")
+    try:
+        req = AccountNFTs(account=address, limit=400)
+        resp = client.request(req)
+        if not resp.is_successful():
+            return False, "[NFT] Failed to query NFTs for license check."
 
-    if not all_nfts:
-        return (False, "[NFT] No NFTs found on this account")
+        nfts = resp.result.get("account_nfts", [])
+        if not nfts:
+            return False, f"[NFT] No NFTs found for account {address}."
 
-    for nft in all_nfts:
-        if nft.get("Issuer") == LICENSE_ISSUER:
-            return (True, f"issuer={LICENSE_ISSUER}")
+        for nft in nfts:
+            issuer = nft.get("Issuer")
+            taxon = nft.get("NFTokenTaxon")
 
-    return (
-        False,
-        f"[NFT] License not found. Hold any NFT from issuer {LICENSE_ISSUER} to unlock Pro features."
-    )
+            if issuer in LICENSE_ISSUERS:
+                if LICENSE_TAXON is None or taxon == LICENSE_TAXON:
+                    if log:
+                        log(f"[NFT] License verified: issuer={issuer}, taxon={taxon}")
+                    return True, f"License verified: NFT from {issuer}"
+        return (
+            False,
+            f"[NFT] License not found. Hold any NFT from issuer {LICENSE_ISSUERS[0]} to unlock Pro features.",
+        )
+    except Exception as e:
+        return False, f"[NFT] License check error: {str(e)}"
 
-# --- optional: quick diagnostics ---------------------------------------------
+# =====================================================================
+# Self-test
+# =====================================================================
 
-def debug_list_issuers(client: JsonRpcClient, classic_address: str) -> List[str]:
-    """Return a deduped list of issuers found on the account (for troubleshooting)."""
-    nfts = _fetch_all_account_nfts(client, classic_address, limit=400) or []
-    issuers = sorted({n.get("Issuer", "") for n in nfts if "Issuer" in n})
-    return issuers
+if __name__ == "__main__":
+    print("This module is intended for import only.")
+    print(f"Authorized issuer(s): {LICENSE_ISSUERS}")
