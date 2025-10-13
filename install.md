@@ -27,3 +27,6 @@ cp examples/.env.example .env
 
 ⚠️ Never commit .env — it contains private keys.
 .gitignore already protects it.
+
+5. Run the UI
+python wizard_orchestrator_v2.py --ui
