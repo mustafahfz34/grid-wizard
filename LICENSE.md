@@ -1,76 +1,49 @@
-# Grid Wizard Commercial License
+# 🔐 Licensing
 
-## Overview
-
-Business Source License 1.1
-
-Copyright © 2025 Grid Wizard Labs. All rights reserved.
-Licensor: Grid Wizard Labs
-Licensed Work: Grid Wizard (XRP/RLUSD Trading Engine and UI)
-Additional Use Grant: Personal and educational use is permitted. 
-Use of the software for live trading or operational purposes requires a valid Grid Wizard NFT License issued by Grid Wizard Labs.
-NFT ownership licenses the holder to *run* the software for their own use only. 
-It does not grant any right to reproduce, modify, rebrand, redistribute, or offer Grid Wizard as a service.
-
-Change Date: 2028-01-01  
-Change License: Apache-2.0
-
-
-## How to Obtain a License
-
-### Option 1 – NFT License (on-chain verification)
-Purchase or hold a **Grid Wizard Pro XRP NFT License** minted on the XRP Ledger.  
-This NFT acts as your perpetual, verifiable proof of use rights.
-
-**Mint / Marketplace Link:**  
-🔗 <https://xrp.cafe/usercollection/rfYZ17wwhA4Be23fw8zthVmQQnrcdDRi52/rfYZ17wwhA4Be23fw8zthVmQQnrcdDRi52/42000>
-
-**Verification Process (built-in):**
-- On startup, the Grid Wizard software checks the connected XRPL wallet
-  for an NFT issued by Grid Wizard Labs.  
-- The NFT metadata must contain `license_type: "Pro"` or equivalent traits.  
-- When verified, the software unlocks the **Pro features** such as:
-  - Full grid-placement and cancellation automation  
-  - Dynamic/Adaptive tranche sizing  
-  - Reserve-relief and metrics modules  
-  - Hot-reload tuning and UI control access  
-
-Users can review this check directly in the public source
-(`wizard_rlusd_grid_v2.py`, section `check_nft_license`), confirming that
-no hidden logic or remote calls exist.
+Grid Wizard is released under the **Business Source License 1.1 (BUSL-1.1)** with an NFT-based user license system.
 
 ---
 
+## 1️⃣ Source Availability (BUSL-1.1)
 
-
-Contact → **licensing@gridwizard.dev**
-
----
-
-
+You can read and audit the source for education and security review.  
+You may not redistribute or offer it as a service.  
+After **Jan 1 2028**, it converts to **Apache-2.0**.
 
 ---
 
-## Restrictions
+## 2️⃣ NFT License = Software Key
 
-Without a valid commercial license (NFT or contract), you may **not**:
+To *run* Grid Wizard for live trading or production use, you must own a **Grid Wizard NFT License**.
 
-- Use the software to execute, automate, or profit from live trades  
-- Offer the software as a service or integrate it into a paid product  
-- Represent yourself as an official or authorized operator  
+**Issuer:** `rfYZ17wwhA4Be23fw8zthVmQQnrcdDRi52`  
+**Mint Link:** [View on XRP.cafe](https://xrp.cafe/usercollection/rfYZ17wwhA4Be23fw8zthVmQQnrcdDRi52/rfYZ17wwhA4Be23fw8zthVmQQnrcdDRi52/42000)
 
-Violations may result in revocation of license rights and, where applicable,
-on-chain blacklisting of the associated NFT license.
+When the software detects an NFT from this issuer in your wallet, it unlocks the Pro runtime.
 
 ---
 
-## Governing Law
+## 3️⃣ What the NFT License Allows
 
-This License shall be governed by and construed in accordance with the
-laws of the **State of Nevada, USA**, without regard to its conflict-of-law principles.
+✅ Install and run Grid Wizard for your own use  
+✅ Receive updates and support while you hold the NFT  
+✅ Transfer your license by transferring the NFT
+
+🚫 No right to reproduce, modify, rebrand, resell, or redistribute the software  
+🚫 No right to bundle Grid Wizard into other products or offer it as a service  
 
 ---
 
-*For questions, bulk licensing, or NFT verification assistance, contact:*  
-📧 licensing@gridwizard.dev
+## 4️⃣ Verification Flow
 
+1. On startup, the bot checks your wallet NFTs.  
+2. If any NFT issuer matches the hard-coded address → license verified.  
+3. If none found → runs in restricted mode (free edition).  
+
+Transparent logic lives in [`wizard_license.py`](../wizard_license.py).
+
+---
+
+## 5️⃣ Revocation and Transfers
+Licenses are verifiable on-chain and can be transferred by sending the NFT to a new wallet.  
+Grid Wizard Labs may revoke NFTs used fraudulently or in violation of terms.
