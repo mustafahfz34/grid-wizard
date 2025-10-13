@@ -22,7 +22,7 @@ from xrpl.utils import xrp_to_drops, drops_to_xrp
 from xrpl.models.currencies import XRP
 from ecdsa import SigningKey, SECP256k1
 
-from wizard_license import check_license  # <-- NEW
+from wizard_license import check_license  # licensing
 
 D = Decimal
 PRICE_PREC = D("0.000001")
@@ -38,18 +38,19 @@ def derive_pubkey_hex_from_privkey_hex(priv_hex: str) -> str:
     return (prefix + x.to_bytes(32, "big")).hex().upper()
 
 def load_wallet_from_env() -> Wallet:
+    # Do not exit on blanks — raise so the caller (UI/orchestrator) can keep running
     load_dotenv(override=True)
-    classic = os.environ.get("CLASSIC_ADDRESS", "").strip()
-    priv_hex = os.environ.get("PRIVATE_KEY_HEX", "").strip()
-    algo = os.environ.get("KEY_ALGO", "secp256k1").strip().lower()
+    classic = (os.environ.get("CLASSIC_ADDRESS") or "").strip()
+    priv_hex = (os.environ.get("PRIVATE_KEY_HEX") or "").strip()
+    algo = (os.environ.get("KEY_ALGO") or "secp256k1").strip().lower()
     if not classic or not priv_hex or algo != "secp256k1":
-        sys.exit(2)
+        raise RuntimeError("Wallet not configured: set CLASSIC_ADDRESS, PRIVATE_KEY_HEX, KEY_ALGO=secp256k1")
     pub_hex = derive_pubkey_hex_from_privkey_hex(priv_hex)
     return Wallet(public_key=pub_hex, private_key=priv_hex)
 
 def connect_clients() -> List[JsonRpcClient]:
-    prim = os.environ.get("XRPL_RPC_PRIMARY", "https://s1.ripple.com:51234").strip()
-    fb = os.environ.get("XRPL_RPC_FALLBACK", "https://s2.ripple.com:51234").strip()
+    prim = (os.environ.get("XRPL_RPC_PRIMARY") or "https://s1.ripple.com:51234").strip()
+    fb = (os.environ.get("XRPL_RPC_FALLBACK") or "https://s2.ripple.com:51234").strip()
     urls = [u for u in [prim, fb] if u]
     return [JsonRpcClient(u) for u in urls]
 
@@ -264,7 +265,6 @@ def clean_pendings(client: JsonRpcClient, ttl: int, log: Callable[[str], None]):
                         log(f"[Pending] Failed {side} hash={p['hash'][:8]}")
                     continue
             except Exception:
-                # txnNotFound: keep as queued
                 pass
             new_list.append(p)
         pendings[side] = new_list
@@ -289,8 +289,6 @@ def auto_cancel_offers(client: JsonRpcClient, wallet: Wallet, existing: List[dic
 
     if not to_cancel:
         return 0
-
-    # Sort by strategy
     to_cancel.sort(key=lambda x: x[1] if strategy == "farthest" else -x[0])
     to_cancel = to_cancel[:max_per_cycle]
 
@@ -316,7 +314,7 @@ def manage_grid_once(client: JsonRpcClient, wallet: Wallet, issuer: str, tag: st
     price_retries = int(os.environ.get("PRICE_FETCH_RETRIES", "3"))
     reserve_relief_enabled = os.environ.get("RESERVE_RELIEF_ENABLED", "0") == "1"
 
-    # ==== NFT license check (robust module) ====
+    # NFT license check
     ok, reason = check_license(client, classic, log)
     if not ok:
         log(reason)
@@ -376,7 +374,6 @@ def manage_grid_once(client: JsonRpcClient, wallet: Wallet, issuer: str, tag: st
         cancelled = auto_cancel_offers(client, wallet, existing, mid,
                                        auto_cancel_buy_bps, auto_cancel_sell_bps,
                                        auto_cancel_max_per_cycle, auto_cancel_strategy, tag, log)
-        # Refresh existing after cancel
         existing = list_pair_offers(client, classic, issuer)
         existing_buy = sum(1 for of in existing if offer_side_vs_xrp(of) == "buy")
         existing_sell = sum(1 for of in existing if offer_side_vs_xrp(of) == "sell")
@@ -391,7 +388,6 @@ def manage_grid_once(client: JsonRpcClient, wallet: Wallet, issuer: str, tag: st
                                          os.environ.get("RESERVE_RELIEF_STRATEGY", "farthest"),
                                          tag, log)
         cancelled += relief_cancelled
-        # Refresh existing
         existing = list_pair_offers(client, classic, issuer)
         existing_buy = sum(1 for of in existing if offer_side_vs_xrp(of) == "buy")
         existing_sell = sum(1 for of in existing if offer_side_vs_xrp(of) == "sell")
@@ -434,14 +430,10 @@ def manage_grid_once(client: JsonRpcClient, wallet: Wallet, issuer: str, tag: st
     for p in targets["buy"][:to_place_buy]:
         if now - last_place["buy"] < buy_throttle:
             log(f"[Skip] BUY: throttle active, next in {buy_next_ok:.0f} sec")
-            throttle_skips += 1
-            skipped += 1
-            continue
+            throttle_skips += 1; skipped += 1; continue
         if existing_buy + pending_buy_len >= max_open_buys:
             log(f"[Skip] BUY: pending cap reached")
-            pending_skips += 1
-            skipped += 1
-            continue
+            pending_skips += 1; skipped += 1; continue
         if rlusd_bal >= buy_tranche:
             if buy_tranche >= min_notional:
                 hash_ = place_buy_xrp(client, wallet, buy_tranche, p, issuer, tag, log)
@@ -460,14 +452,10 @@ def manage_grid_once(client: JsonRpcClient, wallet: Wallet, issuer: str, tag: st
     for p in targets["sell"][:to_place_sell]:
         if now - last_place["sell"] < sell_throttle:
             log(f"[Skip] SELL: throttle active, next in {sell_next_ok:.0f} sec")
-            throttle_skips += 1
-            skipped += 1
-            continue
+            throttle_skips += 1; skipped += 1; continue
         if existing_sell + pending_sell_len >= max_open_sells:
             log(f"[Skip] SELL: pending cap reached")
-            pending_skips += 1
-            skipped += 1
-            continue
+            pending_skips += 1; skipped += 1; continue
         xrp_amt = sell_tranche / p
         if xrp_amt <= spendable_xrp:
             hash_ = place_sell_xrp(client, wallet, sell_tranche, p, issuer, tag, log)
