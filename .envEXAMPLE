@@ -1,0 +1,136 @@
+
+# ===========================================
+# The Grid Wizard — Release .env (v2)
+# ===========================================
+# Notes:
+# - All values are hot-reloadable from the UI.
+# - Keep secrets local. Do not commit real keys to Git.
+# - RLUSD issuer is Ripple’s US dollar IOU. Change only if you know what you’re doing.
+#
+# Quick-start knobs (most users touch only these):
+#   LEVELS=2 | STEP_PCT=0.5 | BUY_OFFSET_BPS=2 | SELL_OFFSET_BPS=5
+#   MAX_OPEN_BUYS=12 | MAX_OPEN_SELLS=3 | BUY/SELL_TRANCHE_RLUSD=20
+#   AUTO_CANCEL_ENABLED=1
+#   AI_OPTIMIZER_ENABLE=1 | AI_DIPSCOUNT_ENABLE=1
+# ===========================================
+
+# ==== GRID TUNABLES (MOST-USED) ====
+# LEVELS: number of buy/sell rungs placed from anchors.
+# STEP_PCT: spacing between rungs (percent of price) — 0.5 = 0.5%
+# BUY/SELL_OFFSET_BPS: distance from best bid/ask to first rung (bps = 1/100 of 1%)
+# *_TRANCHE_RLUSD: notional RLUSD per order (both sides use RLUSD notionals)
+# MIN_NOTIONAL_RLUSD: minimum order size the bot will place
+# SAFETY_BUFFER_XRP: extra XRP kept free (above ledger reserves)
+
+# ==== ACCOUNT / KEYS ====
+CLASSIC_ADDRESS=
+PRIVATE_KEY_HEX=   
+KEY_ALGO=secp256k1
+
+# ==== GRID TUNABLES (MOST-USED) ====
+LEVELS=1
+STEP_PCT=0.5
+BUY_OFFSET_BPS=2
+SELL_OFFSET_BPS=5
+MAX_OPEN_BUYS=12
+MAX_OPEN_SELLS=1
+BUY_TRANCHE_RLUSD=20
+SELL_TRANCHE_RLUSD=20
+MIN_NOTIONAL_RLUSD=20
+SAFETY_BUFFER_XRP=60
+PARTIAL_FILL_THRESHOLD=0.7
+
+
+# ==== STRICT CAP / QUEUE / THROTTLES ====
+# Prevents overshoot by counting in-flight tx and throttling sides.
+PENDING_TTL_SEC=120
+BUY_THROTTLE_SEC=10
+SELL_THROTTLE_SEC=10
+
+
+# ==== AUTO-CANCEL (DISTANCE PRUNE) ====
+# Cancels far-off orders to keep grid tight around the mid.
+# *_BPS_FROM_MID: when an order drifts this far from mid, it becomes eligible to cancel.
+AUTO_CANCEL_ENABLED=1
+AUTO_CANCEL_BUY_BPS_FROM_MID=100
+AUTO_CANCEL_SELL_BPS_FROM_MID=100
+AUTO_CANCEL_MAX_PER_CYCLE=1
+AUTO_CANCEL_STRATEGY=farthest
+
+
+# ==== RESERVE RELIEF (OPTIONAL) ====
+# If enabled, prunes far/old offers to free owner-reserve when object count is high.
+RESERVE_RELIEF_ENABLED=0
+RESERVE_RELIEF_BUY_CAP=
+RESERVE_RELIEF_SELL_CAP=
+RESERVE_RELIEF_MAX_PER_CYCLE=3
+RESERVE_RELIEF_GRACE_BPS=8
+RESERVE_RELIEF_STRATEGY=farthest
+
+# Self-cancel of overlapping own grid (usually keep off)
+GRID_SELF_CANCEL_ENABLED=0
+
+
+# ==== DYNAMIC TRANCHE (OPTIONAL OVERLAY) ====
+# Leave off unless you know your depth signals.
+DYN_TRANCHE_ENABLE=0
+ADAPTIVE_MAX_JUMP_BPS=150
+
+
+# ==== AI HYBRID v2 ====
+# 1) Dynamic Grid Optimizer: widens steps/offsets in high vol; narrows in low vol
+AI_OPTIMIZER_ENABLE=0
+AI_VOL_WINDOW=20
+AI_VOL_HIGH_BPS=60
+AI_VOL_LOW_BPS=20
+AI_STEP_UP_MULT=1.4
+AI_STEP_DOWN_MULT=0.8
+AI_OFFSETS_DELTA_BPS=10
+AI_LEVELS_MAX_DELTA=1
+
+# 2) “DipsCount” Dip Buyback: small IOC buy after pullback from recent high
+#    (The orchestrator mirrors this into AI_DIP_BUYBACK_ENABLE for the module — you do NOT need to set it here.)
+AI_DIPSCOUNT_ENABLE=1
+AI_DIP_BB_TRIGGER_BPS=60
+AI_DIP_BB_SIZE_PCT=30
+AI_DIP_BB_SLIP_BPS=20
+AI_COOLDOWN_SEC=30
+
+
+# ==== RISK (GLOBAL STOP) ====
+# If mid <= GLOBAL_SL_RLUSD, bot flattens exposure using SL_DISCOUNT_BPS from best bid.
+GLOBAL_SL_RLUSD=2.30
+SL_DISCOUNT_BPS=24
+GLOBAL_SL_SELL_BPS=0
+
+
+# ==== PRICE FETCH / HOT-RELOAD ====
+PRICE_FETCH_RETRIES=3
+ENV_RELOAD_EVERY_SEC=30
+ENV_RELOAD_VERBOSE=0
+
+
+# ==== LICENSING (NFT Gate) ====
+# The bot checks for a premium license NFT from this issuer. Add allow-lists if desired.
+LICENSE_NFT_ISSUER=rfYZ17wwhA4Be23fw8zthVmQQnrcdDRi52
+LICENSE_REQUIRE_METADATA=1
+LICENSE_ATTR_KEY=license_type
+LICENSE_ATTR_VALUE=premium
+# LICENSE_NFT_TAXON=0           # optional integer filter
+# LICENSE_NFT_ID_ALLOW=         # optional comma-separated NFTokenIDs
+LICENSE_IPFS_TIMEOUT_SEC=10
+
+
+# ==== UI / PATHS ====
+WIZARD_ENV_PATH=C:\wizard\.env
+INTERVAL=60
+
+# ==== ISSUER / CURRENCY ====
+RLUSD_ISSUER=rMxCKbEDwqr76QuheSUMdEGf4B9xJ8m5De
+RLUSD_CURRENCY_CODE=RLUSD
+
+# ==== RPC ====
+XRPL_RPC_PRIMARY=https://s1.ripple.com:51234
+XRPL_RPC_FALLBACK=https://s2.ripple.com:51234
+
+

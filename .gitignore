@@ -1,0 +1,97 @@
+# =====================================================================
+# GRID WIZARD / PYTHON
+# =====================================================================
+
+# --- Python build ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+*.pyd
+*.so
+*.dll
+
+# --- Virtual environments ---
+.venv/
+venv/
+env/
+ENV/
+
+# --- System / IDE files ---
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.code-workspace
+
+# --- Logs and reports ---
+*.log
+*.out
+*.err
+*.pid
+logs/
+profits.log
+metrics.log
+debug.log
+
+# --- Environment files ---
+.env
+.env.local
+.env.*.local
+# (Keep only examples)
+!examples/.env.example
+
+# --- Build artifacts ---
+build/
+dist/
+*.spec
+*.egg-info/
+*.manifest
+*.pyinstaller/
+*.pyarmor/
+*.bak
+*.tmp
+*.old
+
+# --- Runtime outputs ---
+__output__/
+__cache__/
+*.sqlite
+*.db
+*.jsonl
+*.csv
+*.xlsx
+
+# --- OS / temporary ---
+*.swp
+*.swo
+*.tmp
+*.bak
+*.orig
+*.rej
+*.lock
+
+# --- GitBook / docs build ---
+/docs/_book/
+/docs/.vuepress/dist/
+
+# --- Binary / executable builds ---
+GridWizard.exe
+GridWizard.dmg
+GridWizard.app/
+GridWizard.pkg
+GridWizard.zip
+GridWizard.tar.gz
+
+# --- Sensitive key dumps ---
+wallet_keys.txt
+private_keys.txt
+*.pem
+*.crt
+*.key
+*.csr
+
+# --- Local notes / scratchpads ---
+notes.txt
+todo.txt
+scratch/
